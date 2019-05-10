@@ -19,6 +19,7 @@ import '../assets/css/Parallax.css'
 
 import Home_Content from './Home_Content';
 import Reservation from './Reservation';
+import Payment from './Payment';
 
 class Home extends Component{
 
@@ -98,7 +99,7 @@ class Home extends Component{
                     {/* <!--Body--> */}
                     <Route exact path='/home/:id' component={Home_Content} />
                     <Route exact path='/home/:id/booking' component={Reservation} />
-                    
+                    <Route exact path='/home/:id/payment' component={Payment} />
                 
                 </div> 
                       

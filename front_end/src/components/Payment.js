@@ -27,7 +27,7 @@ import { FaCcAmazonPay } from "react-icons/fa";
 
 
 
-class Reservation extends Component{
+class Payment extends Component{
 
     constructor(props) {
         super(props);
@@ -479,4 +479,4 @@ class Reservation extends Component{
     }
 }
 
-export default Reservation;
+export default Payment;

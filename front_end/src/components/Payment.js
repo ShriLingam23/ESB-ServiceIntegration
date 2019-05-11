@@ -1,29 +1,18 @@
 import React,{Component} from 'react';
 import axios from 'axios';
 import {Link} from 'react-router-dom'
-import { Alert ,Spinner} from 'reactstrap';
-import DatePicker from "react-datepicker";
-import setHours from "date-fns/setHours";
-import setMinutes from "date-fns/setMinutes";
-import addDays from "date-fns/addDays";
-import 'react-datepicker/dist/react-datepicker-cssmodules.css';
-import "react-datepicker/dist/react-datepicker.css";
+import { Alert ,Spinner,Badge,} from 'reactstrap';
 
 import logo from '../logo.svg'
-import { MdEmail } from "react-icons/md";
-import { MdPhone } from "react-icons/md";
-import { MdPerson } from "react-icons/md";
-import { FaRegStar } from "react-icons/fa";
-import { FaSubway } from "react-icons/fa";
-import { FaTicketAlt } from "react-icons/fa";
-import { FaCalendarAlt } from "react-icons/fa";
-import { FaClock } from "react-icons/fa";
 
 import { FaCcMastercard } from "react-icons/fa";
 import { FaCcPaypal } from "react-icons/fa";
 import { FaCcVisa } from "react-icons/fa";
 import { FaCcApplePay } from "react-icons/fa";
 import { FaCcAmazonPay } from "react-icons/fa";
+
+import { FaCreditCard } from "react-icons/fa";
+import { FaMobileAlt } from "react-icons/fa";
 
 
 
@@ -36,16 +25,7 @@ class Payment extends Component{
             visible: false,
             pending: false,
             token:props.match.params.id,
-            user:'',
-            fullName:'',
-            email:'',
-            contactNum:'',
-            trainService:'',
-            trainClass:'',
-            numTickets:'',
-            totalPrice:'',
-            scheduleDate:setHours(setMinutes(new Date(), 0), 8),
-            scheduleTime:setHours(setMinutes(new Date(), 0), 8)
+            user:''
 
         };
 
@@ -116,135 +96,54 @@ class Payment extends Component{
         else{
             return(
                 <div className="col-md-8 py-5 border">
-                    <h4 className="pb-4">Train Reservation Form</h4>
+                    {/* <h4 className="pb-4">Train Reservation Payment</h4> */}
                     <form id='staffForm' onSubmit={this.onFormSubmit}>
-                        <div className="form-row">
-                            <div className="input-group form-group col-md-6">
-                            <div className="input-group-prepend">
-                                <div className="input-group-text"><MdPerson/></div>
-                            </div>
-                            <input 
-                                name="fullName" 
-                                placeholder="Full Name" 
-                                className="form-control" 
-                                type="text"
-                                onChange={this.onValueChange}
-                                value={this.state.user} readOnly/>
-                            </div>
-                        <div className="input-group form-group col-md-6">
-                            <div className="input-group-prepend">
-                                <div className="input-group-text"><MdEmail/></div>
-                            </div>
-                            <input 
-                                name="email" 
-                                placeholder="Email"
-                                className="form-control"
-                                type="email"
-                                onChange={this.onValueChange}
-                                value={this.state.email} />
+                        <div class="row">
+                            <div class="col-sm-12" style={{marginBottom:'15px'}}>
+                                <div class="card " style={{borderColor:'yellow'}}>
+                                <div class="card-body">
+                                    <h5 class="card-title"><Badge style={{fontSize:'10px'}} color="danger">Discount</Badge> For All Government Employees</h5>
+                                    <p class="card-text">Enter your NIC Number to get 10% Dicount</p>
+                                    <div class="input-group mb-3" style={{marginLeft:'170px'}}>
+                                        <input type="text" placeholder="NIC Number" style={{borderTopLeftRadius:'5px',borderBottomLeftRadius:'5px',borderStyle:'inset',textAlign:'center'}}/>
+                                        <div class="input-group-append">
+                                            <button class="btn btn-info" type="button" id="button-addon2">Verify</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                </div>
                             </div>
                         </div>
-                        <div className="form-row">
-                            <div className="input-group form-group col-md-6">
-                                <div className="input-group-prepend">
-                                    <div className="input-group-text"><MdPhone/></div>
-                                </div>
-                                <input 
-                                    name="contactNum" 
-                                    placeholder="Contact No." 
-                                    className="form-control" 
-                                    required="required" 
-                                    type="tel" 
-                                    onChange={this.onValueChange}
-                                    value={this.state.contactNum}/>
-                            </div>
-                            <div className="input-group form-group col-md-6">
-                                <div className="input-group-prepend">
-                                    <div className="input-group-text"><FaSubway/></div>
-                                </div>   
-                                <select name="trainService" className="form-control" onChange={this.onValueChange}>
-                                    <option selected>Choose the Train service ...</option>
-                                    <option>Udarata</option>
-                                    <option>Utara Devi</option>
-                                    <option>Yal Devi</option>
-                                    <option>Southern Express</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div className="form-row">
-                            <div className="input-group form-group col-md-6">
-                                <div className="input-group-prepend">
-                                    <div className="input-group-text"><FaRegStar/></div>
-                                </div>
-                                <select name="trainClass" className=" form-control" onChange={this.onValueChange}>
-                                    <option selected>Choose Train Class ...</option>
-                                    <option>First Class</option>
-                                    <option>Second Class</option>
-                                    <option>Third Class</option>
-                                </select>
-                            </div>
-                            <div className="input-group form-group col-md-6">
-                                <div className=" input-group-prepend">
-                                    <div className="input-group-text"><FaTicketAlt/></div>
-                                </div>
-                            <select name="numTickets" className=" form-control" onChange={this.onValueChange}>
-                                <option selected>Choose Number of Tickets ...</option>
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4</option>
-                                <option>5</option>
-                                <option>6</option>
-                                <option>7</option>
-                                <option>8</option>
-                                <option>9</option>
-                            </select>
-                            </div>
-                        </div>
-                        <div className="form-row">
-                            <div className="input-group form-group col-md-6">
-                                <div className=" input-group-prepend">
-                                    <div className="input-group-text"><FaCalendarAlt/></div>
-                                </div>
-                                <DatePicker
-                                    selected={this.state.scheduleDate}
-                                    onChange={this.handleChangeDate}
-                                    todayButton={"Today"}
-                                    dateFormat="dd/MM/yyyy"
-                                    minDate={new Date()}
-                                    maxDate={addDays(new Date(), 5)}
-                                    placeholderText="Select a date between today and 5 days in the future"
-                                    className="form-control"
-                                    style={{marginRight:'50px'}}
-                                />
-                            </div>
-                            <div className="input-group form-group col-md-6">
-                                <div className=" input-group-prepend">
-                                    <div className="input-group-text"><FaClock/></div>
-                                </div>
-                                <DatePicker
-                                    selected={this.state.scheduleTime}
-                                    onChange={this.handleChangeTime}
-                                    showTimeSelect
-                                    showTimeSelectOnly
-                                    timeIntervals={120}
-                                    minTime={setHours(setMinutes(new Date(), 0), 8)}
-                                    maxTime={setHours(setMinutes(new Date(), 0), 20)}
-                                    dateFormat="h:mm aa"
-                                    timeCaption="Time"
-                                    className="form-control"
-                                />
-                            </div>
-                        </div>
-                        <div style={{margin:'5px'}}>
-                            {/* <label style={{fontSize:'20px',color:'green'}}>Total Amount :</label> { } */}
+                        
+                        <div className='row' style={{margin:'5px'}}>
+                            <span className='col-md-2'></span>
+                            <label className='col-4 text-left' style={{textAlign:'',fontSize:'18px'}}>Gross Amount :</label> { }
                             <input 
                                 style={{fontSize:'20px',color:'green',border:'dotted',textAlign:'center'}} 
                                 placeholder='Total Amount' 
                                 readOnly
                                 value={'Rs '+parseFloat(Math.round(this.state.totalPrice * 100) / 100).toFixed(2)}/>
                         </div>
-                        <div>
+                        <div className='row' style={{margin:'5px'}}>
+                            <span className='col-md-2'></span>
+                            <label className='col-md-4 text-left' style={{fontSize:'18px'}}>Discount :</label> { }
+                            <input 
+                                style={{fontSize:'20px',color:'green',border:'dotted',textAlign:'center'}} 
+                                placeholder='Total Amount' 
+                                readOnly
+                                value={'Rs '+parseFloat(Math.round(this.state.totalPrice * 100) / 100).toFixed(2)}/>
+                        </div>
+                        <div className='row' style={{margin:'5px'}}>
+                            <span className='col-md-2'></span>
+                            <label className='col-4 text-left' style={{fontSize:'18px'}}>Net Amount :</label> { }
+                            <input 
+                                style={{fontSize:'20px',color:'green',border:'dotted',textAlign:'center'}} 
+                                placeholder='Total Amount' 
+                                readOnly
+                                value={'Rs '+parseFloat(Math.round(this.state.totalPrice * 100) / 100).toFixed(2)}/>
+                        </div>
+                        <div style={{marginTop:'15px'}}>
                             Payment support : { }<FaCcAmazonPay size='40px'style={{padding:'5px'}}/>
                             <FaCcApplePay size='40px'style={{padding:'5px'}}/>
                             <FaCcMastercard size='40px'style={{padding:'5px'}}/> 
@@ -266,7 +165,8 @@ class Payment extends Component{
                         </div>
                         
                         <div className="form-row" style={{display:'flex',justifyContent:'center'}}>
-                            <button type='submit' className="btn btn-danger">Proceed to Payment</button>
+                            <div className='col-4'><button type='submit' className="btn btn-danger"><FaMobileAlt size='25px'/> Payment via Mobile</button></div>
+                            <div className='col-4'><button type='submit' className="btn btn-danger"><FaCreditCard size='25px'/> Payment via Card</button></div>
                         </div>
 
                     </form>

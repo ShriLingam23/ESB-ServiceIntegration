@@ -120,28 +120,28 @@ class Reservation extends Component{
                     <form id='staffForm' onSubmit={this.onFormSubmit}>
                         <div className="form-row">
                             <div className="input-group form-group col-md-6">
-                            <div className="input-group-prepend">
-                                <div className="input-group-text"><MdPerson/></div>
+                                <div className="input-group-prepend">
+                                    <div className="input-group-text"><MdPerson/></div>
+                                </div>
+                                <input 
+                                    name="fullName" 
+                                    placeholder="Full Name" 
+                                    className="form-control" 
+                                    type="text"
+                                    onChange={this.onValueChange}
+                                    value={this.state.user} readOnly/>
                             </div>
-                            <input 
-                                name="fullName" 
-                                placeholder="Full Name" 
-                                className="form-control" 
-                                type="text"
-                                onChange={this.onValueChange}
-                                value={this.state.user} readOnly/>
-                            </div>
-                        <div className="input-group form-group col-md-6">
-                            <div className="input-group-prepend">
-                                <div className="input-group-text"><MdEmail/></div>
-                            </div>
-                            <input 
-                                name="email" 
-                                placeholder="Email"
-                                className="form-control"
-                                type="email"
-                                onChange={this.onValueChange}
-                                value={this.state.email} />
+                            <div className="input-group form-group col-md-6">
+                                <div className="input-group-prepend">
+                                    <div className="input-group-text"><MdEmail/></div>
+                                </div>
+                                <input 
+                                    name="email" 
+                                    placeholder="Email"
+                                    className="form-control"
+                                    type="email"
+                                    onChange={this.onValueChange}
+                                    value={this.state.email} />
                             </div>
                         </div>
                         <div className="form-row">
@@ -420,6 +420,7 @@ class Reservation extends Component{
 
         }
 
+        this.props.history.push('/home/'+token+'/payment')
         // axios.post('http://localhost:4000/staff/add',staff)
         //     .then(
         //         res=>{

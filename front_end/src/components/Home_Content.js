@@ -47,7 +47,7 @@ class Home_Content extends Component{
                                 <div className="row">
                                     <div className="col-sm-8 col-md-7 py-4">
                                         <h4 className="text-white">About</h4>
-                                        <p className="text-muted">There’s plenty of things to see and do around here- starting from the boat ride down the Mahaweli River, to Adam’s Peak, Horton Plains, Knuckles Mountain Range, Udawattakale Forest, Tea factories and plantations, a visit to the Brass Crafter, The Temple of Tooth Relic, to the city area that’s lined with gemstones shops. SriLanka is a rich mix of nature and culture.</p>
+                                        <p className="text-muted" style={{fontStyle:'italic'}}>There’s plenty of things to see and do around here- starting from the boat ride down the Mahaweli River, to Adam’s Peak, Horton Plains, Knuckles Mountain Range, Udawattakale Forest, Tea factories and plantations, a visit to the Brass Crafter, The Temple of Tooth Relic, to the city area that’s lined with gemstones shops. SriLanka is a rich mix of nature and culture.</p>
                                     </div>
                                     <div className="col-sm-4 offset-md-1 py-4">
                                         <h4 className="text-black">Contact</h4>
@@ -62,15 +62,14 @@ class Home_Content extends Component{
                         </Collapse>
                         </div>
                     <hr/>
-                    <Row>
-                        <Col xs="8">
+                    <Row style={{marginLeft:'7px',textAlign:'left'}}>
+                        <Col xs="8" style={{fontStyle:'italic',fontVariant:'small-caps'}}>
                             There’s plenty of things to see and do around here- starting from the boat ride down the Mahaweli River, to Adam’s Peak, Horton Plains, Knuckles Mountain Range, Udawattakale Forest, Tea factories and plantations, a visit to the Brass Crafter, The Temple of Tooth Relic, to the city area that’s lined with gemstones shops. SriLanka is a rich mix of nature and culture.
                         </Col>
                         <Col xs="4" style={{display:'flex',alignItems:'center',paddingLeft:'15px'}}>
                             <Link to={'/home/'+this.state.token+'/booking'} className="btn btn-success "><IoMdCalendar size="50px" /> Make a Reservation</Link>
                         </Col>
-                        
-                        
+  
                     </Row>
                     </p>
                     

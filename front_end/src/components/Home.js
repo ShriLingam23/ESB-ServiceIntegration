@@ -72,7 +72,7 @@ class Home extends Component{
                     <header>
 
                     <Navbar color="dark" dark expand="md">
-                        <NavbarBrand href="/"><MdSubway size='40px'/>{ } Loops' Train Reservation</NavbarBrand>
+                        <NavbarBrand><Link to={'/home/'+this.state.token} style={{textDecoration:'none',color:'#fff'}}><MdSubway size='40px'/>{ } Loops' Train Reservation</Link></NavbarBrand>
                         <NavbarToggler onClick={this.toggle} />
                         <Collapse isOpen={this.state.isOpen} navbar>
                             <Nav className="ml-auto" navbar>

@@ -20,7 +20,7 @@ class Payment extends Component{
 
     constructor(props) {
         super(props);
-        // this.toggle = this.toggle.bind(this);
+
         this.state = { 
             visible: false,
             pending: false,
@@ -36,8 +36,7 @@ class Payment extends Component{
         this.newlyAdded = this.newlyAdded.bind(this);
         this.checkPending = this.checkPending.bind(this);
         this.checkTotal= this.checkTotal.bind(this);
-        this.handleChangeDate = this.handleChangeDate.bind(this);
-        this.handleChangeTime = this.handleChangeTime.bind(this);
+        
     }
 
     componentDidMount(){
@@ -53,18 +52,6 @@ class Payment extends Component{
             console.log(this.state.user)
         })
 
-    }
-
-    handleChangeDate(date) {
-        this.setState({
-          scheduleDate: date
-        });
-    }
-
-    handleChangeTime(date) {
-        this.setState({
-          scheduleTime: date
-        });
     }
 
     onDismiss() {
@@ -183,107 +170,11 @@ class Payment extends Component{
         },()=>{
             this.checkTotal()
         })
-
-        // const c = e.target.name;
-        // console.log(e.target.name)
-        // setTimeout(()=>{
-        //     console.log(this.state.c)
-        // },1000)
-        // this.checkTotal()
         
     }
 
     checkTotal(){
 
-        if(this.state.trainClass!=='')
-            console.log(this.state.trainClass)
-
-        if(this.state.trainService!=='')
-            console.log(this.state.trainService)
-        
-        if(this.state.numTickets!=='')
-            console.log(this.state.numTickets)
-
-        if(this.state.trainClass!=='' && this.state.trainService!=='' && this.state.numTickets!==''){
-
-            let total=0.0;
-            
-            if(this.state.trainClass==='First Class'){
-                console.log(true);
-                switch(this.state.trainService){
-                    case 'Udarata':total=1075.00 
-                        break;
-                    case 'Utara Devi': total=1150.00
-                        break;
-                    case 'Yal Devi': total=975.00
-                        break;
-                    case 'Southern Express': total=840.00
-                        break;
-                    default  : total=0.00
-                }
-                console.log(total)
-            }
-            else if(this.state.trainClass==='Second Class'){
-
-                switch(this.state.trainService){
-                    case 'Udarata': total=825.00
-                        break;
-                    case 'Utara Devi': total=945.00
-                        break;
-                    case 'Yal Devi': total=765.00
-                        break;
-                    case 'Southern Express': total=600.00
-                        break;
-                    default  : total=0.00
-                    
-                }
-
-            }
-            else if(this.state.trainClass==='Third Class'){
-
-                switch(this.state.trainService){
-                    case 'Udarata': total=650.00
-                        break;
-                    case 'Utara Devi': total=685.00
-                        break;
-                    case 'Yal Devi': total=615.00
-                        break;
-                    case 'Southern Express': total=400.00
-                        break;
-                    default  : total=0.00
-                    
-                }
-
-            }
-            else
-                total=0.0; 
-
-            // Manipulate with Number of seats
-            switch(this.state.numTickets){
-                case '1': total *=1;
-                    break;
-                case '2': total *=2;
-                    break;
-                case '3': total *=3;
-                    break;
-                case '4': total *=4;
-                    break;
-                case '5': total *=5;
-                    break;
-                case '6': total *=6;
-                    break;
-                case '7': total *=7;
-                    break;
-                case '8': total *=8;
-                    break;
-                case '9': total *=9;
-                    break;
-                default : total= 0.00;
-            }
-
-            console.log(total)
-            this.setState({totalPrice:total})
-        }
 
     }
 
@@ -320,25 +211,6 @@ class Payment extends Component{
 
         }
 
-        // axios.post('http://localhost:4000/staff/add',staff)
-        //     .then(
-        //         res=>{
-        //             console.log(res.data)
-        //             // document.getElementById('staffForm').reset()
-        //             this.setState({
-        //                 visible:true,
-        //                 pending:false,
-        //                 fullName:'',
-        //                 email:'',
-        //                 password:'',
-        //                 profession:'',
-        //                 contactNum:'',
-        //                 location:'',
-        //                 response:''});
-
-        //         },
-        //         err=>console.log(err)
-        //     )
 
     }
 

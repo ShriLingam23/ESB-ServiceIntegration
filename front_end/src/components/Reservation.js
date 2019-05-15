@@ -420,6 +420,9 @@ class Reservation extends Component{
 
         }
 
+        //Setting up sessionStorage
+        localStorage.setItem('reservation', JSON.stringify(Reservation));
+
         this.props.history.push('/home/'+token+'/payment')
         // axios.post('http://localhost:4000/staff/add',staff)
         //     .then(

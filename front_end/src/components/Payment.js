@@ -25,12 +25,17 @@ class Payment extends Component{
             visible: false,
             pending: false,
             token:props.match.params.id,
-            user:''
-
+            user:'',
+            grossAmount:0.00,
+            discount:0.00,
+            netAmount:0.00,
+            reservation:{},
+            id:''
         };
 
         this.onFormSubmit= this.onFormSubmit.bind(this);
-        this.onValueChange = this.onValueChange.bind(this);
+        this.onVerify = this.onVerify.bind(this);
+        this.onIdChange = this.onIdChange.bind(this);
 
         this.onDismiss = this.onDismiss.bind(this);
         this.newlyAdded = this.newlyAdded.bind(this);
@@ -40,17 +45,13 @@ class Payment extends Component{
     }
 
     componentDidMount(){
-        
-        fetch('https://api.github.com/user', {
-            headers: {
-                Authorization: 'token ' + this.state.token
-            }
-        })
-        .then(res => res.json())
-        .then(res => {
-            this.setState({user:res.name});
-            console.log(this.state.user)
-        })
+
+        const reservation = JSON.parse(localStorage.getItem('reservation'));
+        //console.log(reservation)
+        this.setState({reservation:reservation})
+        this.setState({grossAmount:reservation.totalPrice,netAmount:reservation.totalPrice})
+
+        this.setState({user:reservation.user,token:reservation.token});
 
     }
 
@@ -63,7 +64,7 @@ class Payment extends Component{
             return (
                 <div>
                     <Alert color="success" isOpen={this.state.visible} toggle={this.onDismiss} fade={false}>
-                        Staff details successfully added and a Confirmation mail has been sent!
+                        Government Special Discount added to receipt!
                     </Alert>
                 </div>
             );
@@ -85,16 +86,22 @@ class Payment extends Component{
                 <div className="col-md-8 py-5 border">
                     {/* <h4 className="pb-4">Train Reservation Payment</h4> */}
                     <form id='staffForm' onSubmit={this.onFormSubmit}>
-                        <div class="row">
-                            <div class="col-sm-12" style={{marginBottom:'15px'}}>
-                                <div class="card " style={{borderColor:'yellow'}}>
-                                <div class="card-body">
-                                    <h5 class="card-title"><Badge style={{fontSize:'10px'}} color="danger">Discount</Badge> For All Government Employees</h5>
-                                    <p class="card-text">Enter your NIC Number to get 10% Dicount</p>
-                                    <div class="input-group mb-3" style={{marginLeft:'170px'}}>
-                                        <input type="text" placeholder="NIC Number" style={{borderTopLeftRadius:'5px',borderBottomLeftRadius:'5px',borderStyle:'inset',textAlign:'center'}}/>
-                                        <div class="input-group-append">
-                                            <button class="btn btn-info" type="button" id="button-addon2">Verify</button>
+                        <div className="row">
+                            <div className="col-sm-12" style={{marginBottom:'15px'}}>
+                                <div className="card " style={{borderColor:'yellow'}}>
+                                <div className="card-body">
+                                    <h5 className="card-title"><Badge style={{fontSize:'10px'}} color="danger">Discount</Badge> For All Government Employees</h5>
+                                    <p className="card-text">Enter your NIC Number to get 10% Dicount</p>
+                                    <div className="input-group mb-3" style={{marginLeft:'170px'}}>
+                                        <input 
+                                            type="text" 
+                                            placeholder="NIC Number" 
+                                            style={{borderTopLeftRadius:'5px',borderBottomLeftRadius:'5px',borderStyle:'inset',textAlign:'center'}}
+                                            name='id'
+                                            value={this.state.id}
+                                            onChange={this.onIdChange}/>
+                                        <div className="input-group-append">
+                                            <button className="btn btn-info" type="button" onClick={this.onVerify}>Verify</button>
                                         </div>
                                     </div>
 
@@ -110,7 +117,7 @@ class Payment extends Component{
                                 style={{fontSize:'20px',color:'green',border:'dotted',textAlign:'center'}} 
                                 placeholder='Total Amount' 
                                 readOnly
-                                value={'Rs '+parseFloat(Math.round(this.state.totalPrice * 100) / 100).toFixed(2)}/>
+                                value={'Rs '+parseFloat(Math.round(this.state.grossAmount * 100) / 100).toFixed(2)}/>
                         </div>
                         <div className='row' style={{margin:'5px'}}>
                             <span className='col-md-2'></span>
@@ -119,7 +126,7 @@ class Payment extends Component{
                                 style={{fontSize:'20px',color:'green',border:'dotted',textAlign:'center'}} 
                                 placeholder='Total Amount' 
                                 readOnly
-                                value={'Rs '+parseFloat(Math.round(this.state.totalPrice * 100) / 100).toFixed(2)}/>
+                                value={'Rs '+parseFloat(Math.round(this.state.discount * 100) / 100).toFixed(2)}/>
                         </div>
                         <div className='row' style={{margin:'5px'}}>
                             <span className='col-md-2'></span>
@@ -128,7 +135,7 @@ class Payment extends Component{
                                 style={{fontSize:'20px',color:'green',border:'dotted',textAlign:'center'}} 
                                 placeholder='Total Amount' 
                                 readOnly
-                                value={'Rs '+parseFloat(Math.round(this.state.totalPrice * 100) / 100).toFixed(2)}/>
+                                value={'Rs '+parseFloat(Math.round(this.state.netAmount * 100) / 100).toFixed(2)}/>
                         </div>
                         <div style={{marginTop:'15px'}}>
                             Payment support : { }<FaCcAmazonPay size='40px'style={{padding:'5px'}}/>
@@ -164,17 +171,33 @@ class Payment extends Component{
         }
     }
 
-    onValueChange(e){
-        this.setState({
-            [e.target.name]:e.target.value
-        },()=>{
-            this.checkTotal()
-        })
+    onVerify(e){
+
+        axios.post('http://localhost:4001/government/verify',{'id':this.state.id})
+            .then(
+                res =>{
+                    if(this.state.discount===0.00){
+                        if(res.data.valid){
+                            this.setState({
+                                discount:(this.state.netAmount*10/100),
+                                visible:true
+                            },()=>this.checkTotal())
+                        }
+                    }
+                }
+            )
+        
         
     }
 
-    checkTotal(){
+    onIdChange(e){
+        this.setState({id:e.target.value});
+    }
 
+    checkTotal(){
+        this.setState({
+            netAmount:this.state.grossAmount-this.state.discount
+        })
 
     }
 
@@ -182,34 +205,6 @@ class Payment extends Component{
         this.setState({pending:true})
         e.preventDefault();
 
-        const token = this.state.token;
-        const user = this.state.user;
-        const fullName = this.state.fullName;
-        const email = this.state.email;
-        const contactNum = this.state.contactNum;
-        const trainService = this.state.trainService;
-        const trainClass = this.state.trainClass;
-        const numTickets = this.state.numTickets;
-        const totalPrice = this.state.totalPrice;
-        const scheduleDate = this.state.scheduleDate;
-        const scheduleTime = this.state.scheduleTime;
-        
-        // console.log(fullName,email,password,profession,contactNum,location,response)
-
-        const Reservation={
-            token,
-            user,
-            fullName,
-            email,
-            contactNum,
-            trainService,
-            trainClass,
-            numTickets,
-            totalPrice,
-            scheduleDate,
-            scheduleTime
-
-        }
 
 
     }
@@ -217,7 +212,7 @@ class Payment extends Component{
     render(){
         return(
             <div className="container" style={{paddingTop:'20px'}}>
-                
+
                 {this.newlyAdded()}
                 {/* <!--Body--> */}
 

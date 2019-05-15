@@ -11,7 +11,7 @@ app.use(bodyParser.urlencoded({extended:true}));
 
 const Router = express.Router();
 
-Router.route('/verify').get(function(req,res){
+Router.route('/verify').post(function(req,res){
     const idNum = req.body.id;
     console.log(idNum);
 

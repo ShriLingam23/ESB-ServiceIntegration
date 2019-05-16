@@ -205,7 +205,7 @@ class Payment extends Component{
         this.setState({pending:true})
         e.preventDefault();
 
-
+        this.props.history.push('/home/'+this.state.token+'/success')
 
     }
 

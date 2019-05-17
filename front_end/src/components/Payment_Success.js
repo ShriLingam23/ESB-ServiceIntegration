@@ -31,7 +31,15 @@ class Payment extends Component{
 
         const reservation = JSON.parse(localStorage.getItem('reservation'));
         //console.log(reservation)
-        this.setState({user:reservation.user,reservation:reservation})
+        this.setState({user:reservation.user,reservation:reservation});
+
+        //Sending email
+        axios.post('http://localhost:4003/email/confirm',{'reservation':reservation})
+            .then(
+                (res)=>{
+                    console.log(res.data); 
+                }
+            )
     
 
     }

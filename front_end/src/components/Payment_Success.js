@@ -6,16 +6,6 @@ import { Alert ,Spinner,Badge,} from 'reactstrap';
 import logo from '../logo.svg'
 import '../assets/css/Icon.css'
 
-import { FaCcMastercard } from "react-icons/fa";
-import { FaCcPaypal } from "react-icons/fa";
-import { FaCcVisa } from "react-icons/fa";
-import { FaCcApplePay } from "react-icons/fa";
-import { FaCcAmazonPay } from "react-icons/fa";
-
-import { FaCreditCard } from "react-icons/fa";
-import { FaMobileAlt } from "react-icons/fa";
-
-
 
 class Payment extends Component{
 
@@ -25,7 +15,8 @@ class Payment extends Component{
         this.state = {
             pending: false,
             token:props.match.params.id,
-            user:''
+            user:'',
+            reservation:{}
         };
 
         this.onFormSubmit= this.onFormSubmit.bind(this);
@@ -37,6 +28,11 @@ class Payment extends Component{
     }
 
     componentDidMount(){
+
+        const reservation = JSON.parse(localStorage.getItem('reservation'));
+        //console.log(reservation)
+        this.setState({user:reservation.user,reservation:reservation})
+    
 
     }
 
@@ -70,10 +66,10 @@ class Payment extends Component{
                             </div>
 
 
-                            <h3>Dear, Faisal khan</h3>
+                            <h3>Dear, {this.state.reservation.user}</h3>
                             <p style={{fontSize:'20px',color:'#5C5C5C'}}>
-                                Thank you for booking at <b>Loops' Train Reservation</b>.We have sent you an email "faisalkhan.chat@gmail.com" with your details
-                                Please go to your above email now and login.
+                                Thank you for booking at <b>Loops' Train Reservation</b>.We have sent you an email to "{this.state.reservation.email}" with your booking details.
+                                Please go to your above email now and verify.
                             </p>
                             <a href="http://www.gmail.com" className="btn btn-success">     Log in      </a>
                             <br/><br/>

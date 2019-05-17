@@ -424,25 +424,6 @@ class Reservation extends Component{
         localStorage.setItem('reservation', JSON.stringify(Reservation));
 
         this.props.history.push('/home/'+token+'/payment')
-        // axios.post('http://localhost:4000/staff/add',staff)
-        //     .then(
-        //         res=>{
-        //             console.log(res.data)
-        //             // document.getElementById('staffForm').reset()
-        //             this.setState({
-        //                 visible:true,
-        //                 pending:false,
-        //                 fullName:'',
-        //                 email:'',
-        //                 password:'',
-        //                 profession:'',
-        //                 contactNum:'',
-        //                 location:'',
-        //                 response:''});
-
-        //         },
-        //         err=>console.log(err)
-        //     )
 
     }
 

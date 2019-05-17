@@ -50,8 +50,11 @@ class Payment extends Component{
         //console.log(reservation)
         this.setState({reservation:reservation})
         this.setState({grossAmount:reservation.totalPrice,netAmount:reservation.totalPrice})
-
         this.setState({user:reservation.user,token:reservation.token});
+
+        if("discount" in reservation){
+            this.setState({discount:reservation.discount})
+        }
 
     }
 
@@ -205,7 +208,24 @@ class Payment extends Component{
         this.setState({pending:true})
         e.preventDefault();
 
-        this.props.history.push('/home/'+this.state.token+'/success')
+        var reservation = JSON.parse(localStorage.getItem('reservation'));
+        reservation ={
+                        ...reservation,
+                        discount:this.state.discount,
+                        netAmount:this.state.netAmount};
+
+        console.log(reservation);
+        localStorage.setItem('reservation', JSON.stringify(reservation));
+
+        // this.props.history.push('/home/'+this.state.token+'/success')
+
+        axios.post('http://localhost:4002/paypal/pay',{'reservation':reservation})
+            .then(
+                (res)=>{
+                    console.log(res)
+                    window.location.replace(res.data);
+                }
+            )
 
     }
 

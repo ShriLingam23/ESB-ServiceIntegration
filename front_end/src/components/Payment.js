@@ -32,7 +32,8 @@ class Payment extends Component{
             id:'',
             typeOfSubmit:'card',
             modal: false,
-            value:0
+            value:0,
+            otp:''
         };
 
         this.onFormSubmit= this.onFormSubmit.bind(this);
@@ -52,6 +53,10 @@ class Payment extends Component{
         //Timer
         this._decrease= this._decrease.bind(this);
         this.controlTimer= this.controlTimer.bind(this);
+
+        //Otp
+        this.onOtpChange=this.onOtpChange.bind(this);
+        this.onVerifyOtp=this.onVerifyOtp.bind(this);
         
     }
 
@@ -81,8 +86,17 @@ class Payment extends Component{
             this.setState({value:-1},)
 
 
-        if(this.state.modal===true)
-            this.setState({value:10},()=>this._decrease())
+        if(this.state.modal===true){
+            
+            //sending new otp to user
+            axios.post('http://localhost:4004/sms/otp',{'secret':this.state.token})
+            .then(
+                res =>{
+                    console.log(res.data)
+                    this.setState({value:res.data.remaining},()=>this._decrease())
+                }
+            )
+        }
 
     }
 
@@ -165,11 +179,11 @@ class Payment extends Component{
                                         type="text" 
                                         placeholder="4 Digit OTP" 
                                         style={{borderTopLeftRadius:'5px',borderBottomLeftRadius:'5px',borderStyle:'inset',textAlign:'center'}}
-                                        name='id'
-                                        value={this.state.id}
-                                        onChange={this.onIdChange}/>
+                                        name='otp'
+                                        value={this.state.otp}
+                                        onChange={this.onOtpChange}/>
                                     <div className="input-group-append">
-                                        <button className="btn btn-info" type="button" onClick={this.onVerify}>Verify</button>
+                                        <button className="btn btn-info" type="button" onClick={this.onVerifyOtp}>Verify</button>
                                     </div>
                                 </div> <br/>
                                 <h6 style={{textAlign:'center',color:'#FF3333'}}>{this.state.value} {" "} Seconds Left</h6>
@@ -259,8 +273,29 @@ class Payment extends Component{
         
     }
 
+    onVerifyOtp(){
+
+        const pass = {
+                        'secret':this.state.token,
+                        'otp':this.state.otp
+                    }
+
+        axios.post('http://localhost:4004/sms/validate',{'pass':pass})
+            .then(
+                res =>{
+                    console.log(res.data);
+                    if(res.data.valid===true)
+                        this.props.history.push('/home/'+this.state.token+'/success')
+                }
+            )
+    }
+
     onIdChange(e){
         this.setState({id:e.target.value});
+    }
+
+    onOtpChange(e){
+        this.setState({otp:e.target.value});
     }
 
     checkTotal(){
@@ -298,17 +333,18 @@ class Payment extends Component{
 
     onFormSubmit(){
 
-        if(this.state.typeOfSubmit==='card'){
-            console.log("Card Pay")
-            this.setState({pending:true})
-            var reservation = JSON.parse(localStorage.getItem('reservation'));
+        var reservation = JSON.parse(localStorage.getItem('reservation'));
             reservation ={
                             ...reservation,
-                            discount:this.state.discount,
-                            netAmount:this.state.netAmount};
+                            discount:parseFloat(Math.round(this.state.discount * 100) / 100).toFixed(2),
+                            netAmount:parseFloat(Math.round(this.state.netAmount * 100) / 100).toFixed(2)};
 
             console.log(reservation);
             localStorage.setItem('reservation', JSON.stringify(reservation));
+
+        if(this.state.typeOfSubmit==='card'){
+            console.log("Card Pay")
+            this.setState({pending:true})
 
             // this.props.history.push('/home/'+this.state.token+'/success')
 

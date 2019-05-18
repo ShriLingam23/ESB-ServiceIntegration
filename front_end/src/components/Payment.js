@@ -1,7 +1,6 @@
 import React,{Component} from 'react';
 import axios from 'axios';
-import {Link} from 'react-router-dom'
-import { Alert ,Spinner,Badge,} from 'reactstrap';
+import { Alert ,Spinner,Badge,Button, Modal, ModalHeader, ModalBody, ModalFooter} from 'reactstrap';
 
 import logo from '../logo.svg'
 
@@ -30,7 +29,10 @@ class Payment extends Component{
             discount:0.00,
             netAmount:0.00,
             reservation:{},
-            id:''
+            id:'',
+            typeOfSubmit:'card',
+            modal: false,
+            value:0
         };
 
         this.onFormSubmit= this.onFormSubmit.bind(this);
@@ -41,6 +43,15 @@ class Payment extends Component{
         this.newlyAdded = this.newlyAdded.bind(this);
         this.checkPending = this.checkPending.bind(this);
         this.checkTotal= this.checkTotal.bind(this);
+        this.onMobilePay= this.onMobilePay.bind(this);
+        this.onCardPay= this.onCardPay.bind(this);
+
+        //For Modal
+        this.toggle = this.toggle.bind(this);
+
+        //Timer
+        this._decrease= this._decrease.bind(this);
+        this.controlTimer= this.controlTimer.bind(this);
         
     }
 
@@ -56,6 +67,37 @@ class Payment extends Component{
             this.setState({discount:reservation.discount})
         }
 
+    }
+
+    toggle() {
+        this.setState(prevState => ({
+          modal: !prevState.modal
+        }),()=>this.controlTimer());
+        
+    }
+
+    controlTimer(){
+        if(this.state.modal===false)
+            this.setState({value:-1},)
+
+
+        if(this.state.modal===true)
+            this.setState({value:10},()=>this._decrease())
+
+    }
+
+    _decrease() {
+        this.setState({ value: this.state.value - 1 });
+
+        if(this.state.value>=1){
+            setTimeout(()=>{
+                this._decrease()  
+            }, 1000);
+        }
+        else if(this.state.value==0)
+            this.toggle()
+            
+        
     }
 
     onDismiss() {
@@ -88,7 +130,7 @@ class Payment extends Component{
             return(
                 <div className="col-md-8 py-5 border">
                     {/* <h4 className="pb-4">Train Reservation Payment</h4> */}
-                    <form id='staffForm' onSubmit={this.onFormSubmit}>
+                    <form id='staffForm'>
                         <div className="row">
                             <div className="col-sm-12" style={{marginBottom:'15px'}}>
                                 <div className="card " style={{borderColor:'yellow'}}>
@@ -112,6 +154,30 @@ class Payment extends Component{
                                 </div>
                             </div>
                         </div>
+
+                        {/* //Model */}
+                        <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
+                            <ModalHeader toggle={this.toggle}><Badge style={{fontSize:'10px'}} color="success">Secured</Badge>{' '} Dialog Mobile Payment</ModalHeader>
+                            <ModalBody>
+                                <p className="text-center">Enter OTP Pin received to your Mobile Number {this.state.reservation.cotactNum}</p>
+                                <div className="input-group" style={{marginLeft:'100px'}}>
+                                    <input 
+                                        type="text" 
+                                        placeholder="4 Digit OTP" 
+                                        style={{borderTopLeftRadius:'5px',borderBottomLeftRadius:'5px',borderStyle:'inset',textAlign:'center'}}
+                                        name='id'
+                                        value={this.state.id}
+                                        onChange={this.onIdChange}/>
+                                    <div className="input-group-append">
+                                        <button className="btn btn-info" type="button" onClick={this.onVerify}>Verify</button>
+                                    </div>
+                                </div> <br/>
+                                <h6 style={{textAlign:'center',color:'#FF3333'}}>{this.state.value} {" "} Seconds Left</h6>
+                            </ModalBody>
+                            <ModalFooter>
+                                <Button color="secondary" onClick={this.toggle}>Cancel</Button>
+                            </ModalFooter>
+                        </Modal>
                         
                         <div className='row' style={{margin:'5px'}}>
                             <span className='col-md-2'></span>
@@ -162,8 +228,8 @@ class Payment extends Component{
                         </div>
                         
                         <div className="form-row" style={{display:'flex',justifyContent:'center'}}>
-                            <div className='col-4'><button type='submit' className="btn btn-danger"><FaMobileAlt size='25px'/> Payment via Mobile</button></div>
-                            <div className='col-4'><button type='submit' className="btn btn-danger"><FaCreditCard size='25px'/> Payment via Card</button></div>
+                            <div className='col-4'><button className="btn btn-danger" onClick={this.onMobilePay}><FaMobileAlt size='25px'/> Payment via Mobile</button></div>
+                            <div className='col-4'><button className="btn btn-danger" onClick={this.onCardPay}><FaCreditCard size='25px'/> Payment via Card</button></div>
                         </div>
 
                     </form>
@@ -204,28 +270,62 @@ class Payment extends Component{
 
     }
 
-    onFormSubmit(e){
-        this.setState({pending:true})
+    onMobilePay(e){
         e.preventDefault();
+        this.setState({
+            typeOfSubmit:'mobile'
+        },()=>{
+            this.onFormSubmit()
+        })
+        // e.preventDefault();
+        // this.setState({
+        //     typeOfSubmit:'mobile'
+        // })
 
-        var reservation = JSON.parse(localStorage.getItem('reservation'));
-        reservation ={
-                        ...reservation,
-                        discount:this.state.discount,
-                        netAmount:this.state.netAmount};
+        // this.toggle()
+        
+    }
 
-        console.log(reservation);
-        localStorage.setItem('reservation', JSON.stringify(reservation));
+    onCardPay(e){
+        e.preventDefault()
+        this.setState({
+            typeOfSubmit:'card'
+        },()=>{
+            this.onFormSubmit()
+        })
+        
+    }
 
-        // this.props.history.push('/home/'+this.state.token+'/success')
+    onFormSubmit(){
 
-        axios.post('http://localhost:4002/paypal/pay',{'reservation':reservation})
-            .then(
-                (res)=>{
-                    console.log(res)
-                    window.location.replace(res.data);
-                }
+        if(this.state.typeOfSubmit==='card'){
+            console.log("Card Pay")
+            this.setState({pending:true})
+            var reservation = JSON.parse(localStorage.getItem('reservation'));
+            reservation ={
+                            ...reservation,
+                            discount:this.state.discount,
+                            netAmount:this.state.netAmount};
+
+            console.log(reservation);
+            localStorage.setItem('reservation', JSON.stringify(reservation));
+
+            // this.props.history.push('/home/'+this.state.token+'/success')
+
+            axios.post('http://localhost:4002/paypal/pay',{'reservation':reservation})
+                .then(
+                    (res)=>{
+                        console.log(res)
+                        window.location.replace(res.data);
+                    }
             )
+        }
+        else{
+            console.log("Mobile Pay")
+            this.toggle()
+        }
+
+        
 
     }
 

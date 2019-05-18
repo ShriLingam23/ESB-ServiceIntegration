@@ -266,7 +266,7 @@ class Reservation extends Component{
                         </div>
                         
                         <div className="form-row" style={{display:'flex',justifyContent:'center'}}>
-                            <button type='submit' className="btn btn-danger">Proceed to Payment</button>
+                            <button type='submit' className="btn btn-danger" >Proceed to Payment</button>
                         </div>
 
                     </form>

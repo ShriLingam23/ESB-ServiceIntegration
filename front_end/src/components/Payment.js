@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Alert ,Spinner,Badge,Button, Modal, ModalHeader, ModalBody, ModalFooter} from 'reactstrap';
 
 import logo from '../logo.svg'
+import {IoIosCash} from 'react-icons/io'
 
 import { FaCcMastercard } from "react-icons/fa";
 import { FaCcPaypal } from "react-icons/fa";
@@ -380,10 +381,11 @@ class Payment extends Component{
                             <div className='row' >
                                 <div className='col-md-4 bg-info text-white text-center'>
                                     <div className="card-body" >
-                                        <img src={logo} />
-                                        <h2 className="py-3">Registration</h2>
+                                        {/* <img src={logo} /> */}
+                                        <IoIosCash size='150px'style={{marginTop:'100px'}}/>
+                                        <h2 className="py-3">Reservation Payment</h2>
                                         <p>
-                                            Tation argumentum et usu, dicit viderer evertitur te has. Eu dictas concludaturque usu, facete detracto patrioque an per, lucilius pertinacia eu vel.
+                                        There are different ways to pay for your travel. For most people, using a contactless payment or credit card to pay as you go is the best option for value, flexibility and convenience.
 
                                         </p>
                                     </div>

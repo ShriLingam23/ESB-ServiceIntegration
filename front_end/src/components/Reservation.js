@@ -10,6 +10,8 @@ import 'react-datepicker/dist/react-datepicker-cssmodules.css';
 import "react-datepicker/dist/react-datepicker.css";
 
 import logo from '../logo.svg'
+import {IoIosSubway} from 'react-icons/io'
+
 import { MdEmail } from "react-icons/md";
 import { MdPhone } from "react-icons/md";
 import { MdPerson } from "react-icons/md";
@@ -442,10 +444,11 @@ class Reservation extends Component{
                             <div className='row' >
                                 <div className='col-md-4 bg-info text-white text-center'>
                                     <div className="card-body" >
-                                        <img src={logo} />
-                                        <h2 className="py-3">Registration</h2>
+                                        {/* <img src={logo} /> */}
+                                        <IoIosSubway size='150px'style={{marginTop:'100px'}}/>
+                                        <h2 className="py-3">Reservation</h2>
                                         <p>
-                                            Tation argumentum et usu, dicit viderer evertitur te has. Eu dictas concludaturque usu, facete detracto patrioque an per, lucilius pertinacia eu vel.
+                                        Colombo's Overground rail services crisscross the city and extend beyond the Tube network. Most local train lines connect efficiently with the Tube.
 
                                         </p>
                                     </div>

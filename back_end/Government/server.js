@@ -12,10 +12,18 @@ app.use(bodyParser.urlencoded({extended:true}));
 const Router = express.Router();
 
 Router.route('/verify').post(function(req,res){
-    const idNum = req.body.id;
+    let idNum = req.body.id;
+
+    idNum  = idNum.substring(0,idNum.length-1)
     console.log(idNum);
 
-    res.status(200).json({'valid':true})
+    if(idNum%2!=0)
+        res.status(200).json({'valid':true})
+    else
+        res.status(200).json({'valid':false})
+
+    // console.log(idNum);
+    // res.status(200).json({'valid':true})
 })
 
 app.use('/government',Router);

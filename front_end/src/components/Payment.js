@@ -151,7 +151,7 @@ class Payment extends Component{
                                 <div className="card " style={{borderColor:'yellow'}}>
                                 <div className="card-body">
                                     <h5 className="card-title"><Badge style={{fontSize:'10px'}} color="danger">Discount</Badge> For All Government Employees</h5>
-                                    <p className="card-text">Enter your NIC Number to get 10% Dicount</p>
+                                    <p className="card-text">Enter your NIC Number to get 10% Discount</p>
                                     <div className="input-group mb-3" style={{marginLeft:'170px'}}>
                                         <input 
                                             type="text" 

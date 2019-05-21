@@ -393,8 +393,7 @@ class Reservation extends Component{
         const scheduleDate = this.state.scheduleDate;
         const scheduleTime = this.state.scheduleTime;
         
-        // console.log(fullName,email,password,profession,contactNum,location,response)
-
+    
         const Reservation={
             token,
             user,

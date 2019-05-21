@@ -8,7 +8,6 @@ import { FaGithub } from "react-icons/fa";
 import { MdSubway } from "react-icons/md";
 
 import Img from '../assets/img/bg.jpg';
-import logo from '../assets/img/NsLogo.jpg';
 
 class Landing extends Component{
 

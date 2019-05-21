@@ -36,19 +36,18 @@ class Home extends Component{
     }
 
     componentDidMount(){
-        // const token = this.props.match.params.id;
 
-        // Call the user info API using the fetch browser library
+        // Calling the end-user information using the fetch call
         fetch('https://api.github.com/user', {
             headers: {
-                // Include the token in the Authorization header
+                // Including the token to the Authorization header of fetch call
                 Authorization: 'token ' + this.state.token
             }
         })
-        // Parse the response as JSON
+        // Parsing the response as JSON object
         .then(res => res.json())
         .then(res => {
-            // Once we get the response (which has many fields)
+            // Once response is received store it in state 
             this.setState({user:res.name});
             console.log(this.state.user)
         })

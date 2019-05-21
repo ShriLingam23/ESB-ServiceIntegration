@@ -13,7 +13,7 @@ const Router = express.Router();
 
 Router.route('/confirm').post(function(req,res){
     const reservation =req.body.reservation;
-    console.log(reservation)
+
     //Dependiencies needed for Email service
     const nodemailer = require('nodemailer');
     const ejs = require("ejs");
@@ -59,7 +59,6 @@ Router.route('/confirm').post(function(req,res){
                 subject: 'Train Ticket Receipt',
                 html: data
             };
-            // console.log("html data ======================>", mainOptions.html);
     
             transporter.sendMail(mainOptions, function (err, info) {
               if (err) {

@@ -256,7 +256,7 @@ class Payment extends Component{
 
     onVerify(e){
 
-        axios.post('http://localhost:4001/government/verify',{'id':this.state.id})
+        axios.post('http://192.168.1.100:8280/train/reserve/government/verify',{'id':this.state.id})
             .then(
                 res =>{
                     if(this.state.discount===0.00){

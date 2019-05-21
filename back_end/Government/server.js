@@ -22,8 +22,6 @@ Router.route('/verify').post(function(req,res){
     else
         res.status(200).json({'valid':false})
 
-    // console.log(idNum);
-    // res.status(200).json({'valid':true})
 })
 
 app.use('/government',Router);

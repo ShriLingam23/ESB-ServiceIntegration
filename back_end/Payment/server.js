@@ -16,14 +16,14 @@ Router.route('/pay').post(function(req,res){
     const reservation = req.body.reservation;
     console.log(reservation);
     
-    // configure paypal with the credentials you got when you created your paypal app
+    // Configuring paypal with the credentials obtained when creating paypal account
     paypal.configure({
-        'mode': 'sandbox', //sandbox or live 
-        'client_id': 'AWlPx_EYJ6p1lcKWSjJHRU1Yz3uwMvF3UaFRomv5jZvtO3k7lGPOAitfGhFZzNkcDNoGwAj4wXeeiyar', // please provide your client id here 
-        'client_secret': 'ED6EAGlOFVI8rZX5bS_m-g-8pmhRoUDwuKsz2F7oum3DwnIQHwaQkKF2TWO6Yq2aeumGk-_KSWpOGMfS' // provide your client secret here 
+        'mode': 'sandbox', //Specifying as Test
+        'client_id': 'AWlPx_EYJ6p1lcKWSjJHRU1Yz3uwMvF3UaFRomv5jZvtO3k7lGPOAitfGhFZzNkcDNoGwAj4wXeeiyar', // Our confidential Client ID 
+        'client_secret': 'ED6EAGlOFVI8rZX5bS_m-g-8pmhRoUDwuKsz2F7oum3DwnIQHwaQkKF2TWO6Yq2aeumGk-_KSWpOGMfS' // Our confidential Client secret  
     });
 
-    // create payment object 
+    // Creating the Payment Object
     var payment = {
         "intent": "authorize",
         "payer": {
@@ -42,7 +42,7 @@ Router.route('/pay').post(function(req,res){
         }]
     }
 
-    // call the create Pay method 
+    // Calling the Custome Payment method 
     createPay( payment ) 
         .then( ( transaction ) => {
             var id = transaction.id; 
@@ -50,34 +50,18 @@ Router.route('/pay').post(function(req,res){
             var counter = links.length; 
             while( counter -- ) {
                 if ( links[counter].method == 'REDIRECT') {
-					// redirect to paypal where user approves the transaction 
-                    // return res.redirect( links[counter].href )
-                    console.log(links[counter].href)
                     res.send(links[counter].href)
                 }
             }
         })
         .catch( ( err ) => { 
             console.log( err ); 
-            res.redirect('/err');
         });
 
 
 })
 
-// success page 
-app.get('/success' , (req ,res ) => {
-    console.log(req.query); 
-    // res.redirect('/success.html'); 
-})
-
-// error page 
-app.get('/err' , (req , res) => {
-    console.log(req.query); 
-    // res.redirect('/err.html'); 
-})
-
-// helper functions 
+// Custom functions 
 var createPay = ( create_payment_json ) => {
     return new Promise( ( resolve , reject ) => {
         paypal.payment.create( create_payment_json , function( err , payment ) {

@@ -1,4 +1,5 @@
 const express = require('express')
+const app = express()
 
 // Import the axios library, to make HTTP requests
 const axios = require('axios')
@@ -8,9 +9,6 @@ const axios = require('axios')
 // while registering the application
 const clientID = '42c283f5dd440faa8fc5'
 const clientSecret = 'ced69978c63e88fc96387317742aa8738dbf49df'
-
-const app = express()
-
 
 // Declare the redirect route
 app.get('/home', (req, res) => {
@@ -41,7 +39,6 @@ app.get('/home', (req, res) => {
   })
 })
 
-app.use(express.static(__dirname + '/public'))
 app.listen(4000,()=>{
     console.log("Authentication Server listening on port : 4000")
 })

@@ -89,7 +89,7 @@ class Payment extends Component{
         if(this.state.modal===true){
             
             //sending new otp to user
-            axios.post('http://localhost:4004/sms/otp',{'secret':this.state.token})
+            axios.post('http://192.168.1.100:8280/train/reserve/sms/otp',{'secret':this.state.token})
             .then(
                 res =>{
                     console.log(res.data)
@@ -143,7 +143,6 @@ class Payment extends Component{
         else{
             return(
                 <div className="col-md-8 py-5 border">
-                    {/* <h4 className="pb-4">Train Reservation Payment</h4> */}
                     <form id='staffForm'>
                         <div className="row">
                             <div className="col-sm-12" style={{marginBottom:'15px'}}>
@@ -280,7 +279,7 @@ class Payment extends Component{
                         'otp':this.state.otp
                     }
 
-        axios.post('http://localhost:4004/sms/validate',{'pass':pass})
+        axios.post('http://192.168.1.100:8280/train/reserve/sms/validate',{'pass':pass})
             .then(
                 res =>{
                     console.log(res.data);
@@ -312,12 +311,6 @@ class Payment extends Component{
         },()=>{
             this.onFormSubmit()
         })
-        // e.preventDefault();
-        // this.setState({
-        //     typeOfSubmit:'mobile'
-        // })
-
-        // this.toggle()
         
     }
 
@@ -346,9 +339,8 @@ class Payment extends Component{
             console.log("Card Pay")
             this.setState({pending:true})
 
-            // this.props.history.push('/home/'+this.state.token+'/success')
 
-            axios.post('http://localhost:4002/paypal/pay',{'reservation':reservation})
+            axios.post('http://192.168.1.100:8280/train/reserve/paypal/pay',{'reservation':reservation})
                 .then(
                     (res)=>{
                         console.log(res)
@@ -380,7 +372,6 @@ class Payment extends Component{
                             <div className='row' >
                                 <div className='col-md-4 bg-info text-white text-center'>
                                     <div className="card-body" >
-                                        {/* <img src={logo} /> */}
                                         <IoIosCash size='150px'style={{marginTop:'100px'}}/>
                                         <h2 className="py-3">Reservation Payment</h2>
                                         <p>

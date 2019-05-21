@@ -1,6 +1,5 @@
 import React,{Component} from 'react';
 import axios from 'axios';
-import {Link} from 'react-router-dom'
 import { Alert ,Spinner,Badge,} from 'reactstrap';
 
 import logo from '../logo.svg'
@@ -20,8 +19,6 @@ class Payment extends Component{
         };
 
         this.onFormSubmit= this.onFormSubmit.bind(this);
-        this.onVerify = this.onVerify.bind(this);
-
         this.checkPending = this.checkPending.bind(this);
         this.checkTotal= this.checkTotal.bind(this);
         
@@ -57,7 +54,6 @@ class Payment extends Component{
         else{
             return(
                 <div className="col-md-8 py-5 border">
-                    {/* <h4 className="pb-4">Train Reservation Payment</h4> */}
                     
                     <div style={{padding:'8px'}}>
                         <div className="row text-center">
@@ -91,25 +87,6 @@ class Payment extends Component{
                 
             )
         }
-    }
-
-    onVerify(e){
-
-        axios.post('http://localhost:4001/government/verify',{'id':this.state.id})
-            .then(
-                res =>{
-                    if(this.state.discount===0.00){
-                        if(res.data.valid){
-                            this.setState({
-                                discount:(this.state.netAmount*10/100),
-                                visible:true
-                            },()=>this.checkTotal())
-                        }
-                    }
-                }
-            )
-        
-        
     }
 
     checkTotal(){

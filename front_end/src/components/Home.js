@@ -49,7 +49,6 @@ class Home extends Component{
         .then(res => res.json())
         .then(res => {
             // Once we get the response (which has many fields)
-            // Documented here: https://developer.github.com/v3/users/#get-the-authenticated-user
             this.setState({user:res.name});
             console.log(this.state.user)
         })

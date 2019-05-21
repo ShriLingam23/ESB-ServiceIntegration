@@ -2,7 +2,6 @@ import React,{Component} from 'react';
 import axios from 'axios';
 import { Alert ,Spinner,Badge,Button, Modal, ModalHeader, ModalBody, ModalFooter} from 'reactstrap';
 
-import logo from '../logo.svg'
 import {IoIosCash} from 'react-icons/io'
 
 import { FaCcMastercard } from "react-icons/fa";

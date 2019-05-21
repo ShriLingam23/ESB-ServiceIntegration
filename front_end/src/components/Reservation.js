@@ -1,6 +1,4 @@
 import React,{Component} from 'react';
-import axios from 'axios';
-import {Link} from 'react-router-dom'
 import { Alert ,Spinner} from 'reactstrap';
 import DatePicker from "react-datepicker";
 import setHours from "date-fns/setHours";
@@ -9,7 +7,6 @@ import addDays from "date-fns/addDays";
 import 'react-datepicker/dist/react-datepicker-cssmodules.css';
 import "react-datepicker/dist/react-datepicker.css";
 
-import logo from '../logo.svg'
 import {IoIosSubway} from 'react-icons/io'
 
 import { MdEmail } from "react-icons/md";
@@ -33,7 +30,6 @@ class Reservation extends Component{
 
     constructor(props) {
         super(props);
-        // this.toggle = this.toggle.bind(this);
         this.state = { 
             visible: false,
             pending: false,
@@ -239,7 +235,6 @@ class Reservation extends Component{
                             </div>
                         </div>
                         <div style={{margin:'5px'}}>
-                            {/* <label style={{fontSize:'20px',color:'green'}}>Total Amount :</label> { } */}
                             <input 
                                 style={{fontSize:'20px',color:'green',border:'dotted',textAlign:'center'}} 
                                 placeholder='Total Amount' 
@@ -286,13 +281,6 @@ class Reservation extends Component{
             this.checkTotal()
         })
 
-        // const c = e.target.name;
-        // console.log(e.target.name)
-        // setTimeout(()=>{
-        //     console.log(this.state.c)
-        // },1000)
-        // this.checkTotal()
-        
     }
 
     checkTotal(){
@@ -444,7 +432,6 @@ class Reservation extends Component{
                             <div className='row' >
                                 <div className='col-md-4 bg-info text-white text-center'>
                                     <div className="card-body" >
-                                        {/* <img src={logo} /> */}
                                         <IoIosSubway size='150px'style={{marginTop:'100px'}}/>
                                         <h2 className="py-3">Reservation</h2>
                                         <p>

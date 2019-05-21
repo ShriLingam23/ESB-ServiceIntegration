@@ -31,7 +31,7 @@ class Payment extends Component{
         this.setState({user:reservation.user,reservation:reservation});
 
         //Sending email
-        axios.post('http://localhost:4003/email/confirm',{'reservation':reservation})
+        axios.post('http://192.168.1.100:8280/train/reserve/email/confirm',{'reservation':reservation})
             .then(
                 (res)=>{
                     console.log(res.data); 
